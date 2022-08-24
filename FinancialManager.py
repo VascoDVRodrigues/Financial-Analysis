@@ -30,14 +30,14 @@ class FinanceManager:
                 cur = con.cursor()
                 parse = row.to_numpy()
                 if(parse[4]!=parse[4]):
-                    hash_object = hashlib.md5((parse[2] + '0.0' + parse[3].replace(',','.') + parse[0] + parse[7]).encode())
+                    hash_object = hashlib.md5((parse[2] + '0.0' + parse[3].replace(',','.') + parse[0]).encode())
                     cur.execute("SELECT * FROM TRANSACTIONS WHERE hash=?", (hash_object.hexdigest(),))
                     if(cur.fetchone() is None):
                         data1 = (parse[2],0.0,float(parse[3].replace(',','.')),parse[0],parse[7],hash_object.hexdigest())
                         data.append(data1)
                     
                 else:
-                    hash_object = hashlib.md5((parse[2] + parse[4].replace(',','.') + '0.0' + parse[0] + parse[7]).encode())   
+                    hash_object = hashlib.md5((parse[2] + parse[4].replace(',','.') + '0.0' + parse[0]).encode())   
                     cur.execute("SELECT * FROM TRANSACTIONS WHERE hash=?", (hash_object.hexdigest(),))
                     if(cur.fetchone() is None):              
                         data1 = (parse[2],float(parse[4].replace(',','.')),0.0,parse[0],parse[7],hash_object.hexdigest())
