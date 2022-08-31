@@ -13,7 +13,10 @@ class FinanceManager:
     
     def setSkipRows(self, rows: int) -> None:
         self.skiprows = rows
-    
+
+    def getFileName(self) -> str:
+        return self.filename
+        
     def fetchDataFrame(self) -> None:
         try:
             df = pd.read_csv(self.filename, sep=';', skiprows=self.skiprows, encoding='latin-1')
@@ -42,6 +45,7 @@ class FinanceManager:
                     if(cur.fetchone() is None):              
                         data1 = (parse[2],float(parse[4].replace(',','.')),0.0,parse[0],parse[7],hash_object.hexdigest())
                         data.append(data1)
+        
             con.executemany(sql, data)
         print(f"Added {len(data)} new transaction/s!")
         con.close()
